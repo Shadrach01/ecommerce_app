@@ -127,7 +127,7 @@ class SignUpScreen extends StatelessWidget {
                 prefixicon: Icons.lock_outline,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                controller: _passwordController,
+                controller: _confirmPasswordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please confirm your password';
