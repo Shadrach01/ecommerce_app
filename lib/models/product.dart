@@ -53,6 +53,7 @@ final List<Product> products = [
     category: 'Footwear',
     price: 69.00,
     oldPrice: 189.00,
+    isFavorite: true,
     imageUrl: 'assets/images/shoes2.jpg',
     description: 'This is the description of the product 4',
   ),
