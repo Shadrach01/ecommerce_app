@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ecommerce_app/controllers/auth_controller.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
-import 'package:ecommerce_app/view/signin_screen.dart';
+import 'package:ecommerce_app/features/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

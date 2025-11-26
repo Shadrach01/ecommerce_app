@@ -1,14 +1,15 @@
 import 'package:ecommerce_app/controllers/auth_controller.dart';
-import 'package:ecommerce_app/view/main_screen.dart';
-import 'package:ecommerce_app/view/onboarding_screen.dart';
-import 'package:ecommerce_app/view/signin_screen.dart';
+import 'package:ecommerce_app/features/main_screen.dart';
+import 'package:ecommerce_app/features/onboarding_screen.dart';
+import 'package:ecommerce_app/features/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
 
-  final AuthController authController = Get.find<AuthController>();
+  final AuthController authController =
+      Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     //navigate baseed on auth state after 2.5 seconds
@@ -30,8 +31,12 @@ class SplashScreen extends StatelessWidget {
             end: Alignment.bottomRight,
             colors: [
               Theme.of(context).primaryColor,
-              Theme.of(context).primaryColor.withOpacity(0.8),
-              Theme.of(context).primaryColor.withOpacity(0.6),
+              Theme.of(
+                context,
+              ).primaryColor.withOpacity(0.8),
+              Theme.of(
+                context,
+              ).primaryColor.withOpacity(0.6),
             ],
           ),
         ),
@@ -53,7 +58,9 @@ class SplashScreen extends StatelessWidget {
                   //animated logo container
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0.0, end: 1.0),
-                    duration: const Duration(milliseconds: 1200),
+                    duration: const Duration(
+                      milliseconds: 1200,
+                    ),
                     builder: (context, value, child) {
                       return Transform.scale(
                         scale: value,
@@ -64,7 +71,8 @@ class SplashScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                                color: Colors.black
+                                    .withOpacity(0.1),
                                 blurRadius: 20,
                                 spreadRadius: 2,
                                 offset: const Offset(0, 4),
@@ -74,7 +82,9 @@ class SplashScreen extends StatelessWidget {
                           child: Icon(
                             Icons.shopping_bag_outlined,
                             size: 48,
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(
+                              context,
+                            ).primaryColor,
                           ),
                         ),
                       );
@@ -86,12 +96,17 @@ class SplashScreen extends StatelessWidget {
                   // animated text
                   TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0.0, end: 1.0),
-                    duration: const Duration(milliseconds: 1200),
+                    duration: const Duration(
+                      milliseconds: 1200,
+                    ),
                     builder: (context, value, child) {
                       return Opacity(
                         opacity: value,
                         child: Transform.translate(
-                          offset: Offset(0, 20 * (1 - value)),
+                          offset: Offset(
+                            0,
+                            20 * (1 - value),
+                          ),
                           child: child,
                         ),
                       );
@@ -131,9 +146,14 @@ class SplashScreen extends StatelessWidget {
               right: 0,
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0.0, end: 1.0),
-                duration: const Duration(milliseconds: 1200),
+                duration: const Duration(
+                  milliseconds: 1200,
+                ),
                 builder: (context, value, child) {
-                  return Opacity(opacity: value, child: child);
+                  return Opacity(
+                    opacity: value,
+                    child: child,
+                  );
                 },
                 child: Text(
                   'style meets Simplicity',
@@ -156,7 +176,8 @@ class SplashScreen extends StatelessWidget {
 
 class GridPattern extends StatelessWidget {
   final Color color;
-  const GridPattern({Key? key, required this.color}) : super(key: key);
+  const GridPattern({Key? key, required this.color})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -177,14 +198,23 @@ class GridPainter extends CustomPainter {
     final spacing = 20.0;
 
     for (var i = 0.0; i < size.width; i += spacing) {
-      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+      canvas.drawLine(
+        Offset(i, 0),
+        Offset(i, size.height),
+        paint,
+      );
     }
 
     for (var i = 0.0; i < size.height; i += spacing) {
-      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+      canvas.drawLine(
+        Offset(0, i),
+        Offset(size.width, i),
+        paint,
+      );
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) =>
+      false;
 }
