@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/features/main_screen.dart';
+import 'package:ecommerce_app/features/pages/main_screen.dart';
 import 'package:ecommerce_app/features/my%20orders/view/screens/my_orders_screen.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
 import 'package:flutter/material.dart';

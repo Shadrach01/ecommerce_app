@@ -33,6 +33,14 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Firebase/FlutterFire
+.firebase/
+firebase.json
+**firebase_options.dart
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_app_id_file.json
+
 # Symbolication related
 app.*.symbols
 

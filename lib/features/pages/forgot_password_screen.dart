@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/controllers/auth_controller.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
 import 'package:ecommerce_app/features/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -80,9 +81,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    showSuccessDialog(context);
-                  },
+                  onPressed: _handleSendRequestLink,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(
                       context,
@@ -110,6 +109,76 @@ class ForgotPasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handleSendRequestLink() async {
+    // validate email input
+    if (_emailController.text.trim().isEmpty) {
+      print('before snack bar called');
+      Get.snackbar(
+        'Error',
+        'Please enter your email',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
+      return;
+    }
+
+    if (!GetUtils.isEmail(_emailController.text.trim())) {
+      Get.snackbar(
+        'Error',
+        'Please enter a valid email',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
+      return;
+    }
+
+    final AuthController authController =
+        Get.find<AuthController>();
+
+    // show loading indicator
+    Get.dialog(
+      const Center(child: CircularProgressIndicator()),
+      barrierDismissible: false,
+    );
+
+    try {
+      final result = await authController
+          .sendPasswordResetEmail(
+            email: _emailController.text.trim(),
+          );
+
+      // close loading dialog
+      Get.back();
+
+      if (result.success) {
+        showSuccessDialog(Get.context!);
+      } else {
+        Get.snackbar(
+          'Error',
+          result.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      // close loading dialog
+      Get.back();
+
+      Get.snackbar(
+        'Error',
+        'An unexpected error occured, please try again later.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
   // show success dialog

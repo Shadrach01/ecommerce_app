@@ -1,28 +1,45 @@
 import 'package:ecommerce_app/controllers/auth_controller.dart';
-import 'package:ecommerce_app/features/main_screen.dart';
-import 'package:ecommerce_app/features/onboarding_screen.dart';
-import 'package:ecommerce_app/features/signin_screen.dart';
+import 'package:ecommerce_app/features/pages/main_screen.dart';
+import 'package:ecommerce_app/features/pages/onboarding_screen.dart';
+import 'package:ecommerce_app/features/pages/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatelessWidget {
-  SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
   final AuthController authController =
       Get.find<AuthController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+
+  void _initializeApp() async {
+    // wait for Firebae auth state to be determined
+    await Future.delayed(
+      const Duration(milliseconds: 2500),
+    );
+
+    // Navigate based on auth state
+    if (authController.isFirstTime) {
+      Get.off(() => const OnboardingScreen());
+    } else if (authController.isLoggedIn) {
+      Get.off(() => const MainScreen());
+    } else {
+      Get.off(() => SigninScreen());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    //navigate baseed on auth state after 2.5 seconds
-    Future.delayed(const Duration(milliseconds: 2500), () {
-      if (authController.isFirstTime) {
-        Get.off(() => OnboardingScreen());
-      } else if (authController.isLoggedIn) {
-        Get.off(() => MainScreen());
-      } else {
-        Get.off(() => SigninScreen());
-      }
-    });
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

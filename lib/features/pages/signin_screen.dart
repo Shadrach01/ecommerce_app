@@ -1,27 +1,25 @@
+import 'package:ecommerce_app/controllers/auth_controller.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
-import 'package:ecommerce_app/features/main_screen.dart';
-import 'package:ecommerce_app/features/signin_screen.dart';
+import 'package:ecommerce_app/features/pages/forgot_password_screen.dart';
+import 'package:ecommerce_app/features/pages/main_screen.dart';
+import 'package:ecommerce_app/features/pages/sign_up_screen.dart';
 import 'package:ecommerce_app/features/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
-
-  final TextEditingController _nameController =
-      TextEditingController();
+class SigninScreen extends StatelessWidget {
+  SigninScreen({super.key});
 
   final TextEditingController _emailController =
       TextEditingController();
   final TextEditingController _passwordController =
-      TextEditingController();
-  final TextEditingController _confirmPasswordController =
       TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final isDark =
         Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -29,21 +27,9 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //back button
-              IconButton(
-                onPressed: () => Get.back(),
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: isDark
-                      ? Colors.white
-                      : Colors.black,
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
+              const SizedBox(height: 40),
               Text(
-                'Create Account',
+                'Welcome Back!',
                 style: AppTextStyles.withColor(
                   AppTextStyles.h1,
                   Theme.of(
@@ -53,9 +39,8 @@ class SignUpScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 8),
-
               Text(
-                'Signup to get started',
+                'Sign in to continue shopping',
                 style: AppTextStyles.withColor(
                   AppTextStyles.bodyLarge,
                   isDark
@@ -65,23 +50,6 @@ class SignUpScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 40),
-
-              // Full name textfield
-              CustomTextfield(
-                label: 'Full Name',
-                prefixicon: Icons.person_2_outlined,
-                keyboardType: TextInputType.emailAddress,
-                controller: _nameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-
-                  return null;
-                },
-              ),
-
-              const SizedBox(height: 16),
 
               // email textfield
               CustomTextfield(
@@ -119,35 +87,31 @@ class SignUpScreen extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
-              // confirm password textfield
-              CustomTextfield(
-                label: 'Confirm Password',
-                prefixicon: Icons.lock_outline,
-                keyboardType: TextInputType.visiblePassword,
-                isPassword: true,
-                controller: _confirmPasswordController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please confirm your password';
-                  }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-
-                  return null;
-                },
+              // forgot password textbuton
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () =>
+                      Get.to(() => ForgotPasswordScreen()),
+                  child: Text(
+                    'Forgot Password?',
+                    style: AppTextStyles.withColor(
+                      AppTextStyles.buttonMedium,
+                      Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
               ),
 
               const SizedBox(height: 24),
 
-              // signup button
+              // sign in button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () =>
-                      Get.off(() => MainScreen()),
+                  onPressed: _handleSignIn,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(
                       context,
@@ -162,7 +126,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Sign Up',
+                    'Sign In',
                     style: AppTextStyles.withColor(
                       AppTextStyles.buttonMedium,
                       Colors.white,
@@ -173,12 +137,12 @@ class SignUpScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // signin textbutton
+              // sign up button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account? ',
+                    "Don't have an account?",
                     style: AppTextStyles.withColor(
                       AppTextStyles.bodyMedium,
                       isDark
@@ -188,11 +152,11 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () =>
-                        Get.off(() => SigninScreen()),
+                        Get.to(() => SignUpScreen()),
                     child: Text(
-                      'Sign In',
+                      'Sign Up',
                       style: AppTextStyles.withColor(
-                        AppTextStyles.bodyMedium,
+                        AppTextStyles.buttonMedium,
                         Theme.of(context).primaryColor,
                       ),
                     ),
@@ -204,5 +168,92 @@ class SignUpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // sing in button onpressed
+  void _handleSignIn() async {
+    // validate input fields
+    if (_emailController.text.trim().isEmpty) {
+      print('before snack bar called');
+      Get.snackbar(
+        'Error',
+        'Please enter your email',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
+      return;
+    }
+
+    if (_passwordController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please enter your password',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+    if (!GetUtils.isEmail(_emailController.text.trim())) {
+      Get.snackbar(
+        'Error',
+        'Please enter a valid email',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
+      return;
+    }
+
+    final AuthController authController =
+        Get.find<AuthController>();
+
+    // show loading indicator
+    Get.dialog(
+      const Center(child: CircularProgressIndicator()),
+      barrierDismissible: false,
+    );
+
+    try {
+      final result = await authController.signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      // close loading dialog
+      Get.back();
+
+      if (result.success) {
+        Get.snackbar(
+          'Success',
+          result.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        Get.offAll(() => const MainScreen());
+      } else {
+        Get.snackbar(
+          'Error',
+          result.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      // Close loading dialog
+      Get.back();
+      Get.snackbar(
+        'Error',
+        'An unexpected error occured. Please try again',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    }
   }
 }

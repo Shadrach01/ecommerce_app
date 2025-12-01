@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/controllers/theme_controller.dart';
-import 'package:ecommerce_app/features/all_products_screen.dart';
-import 'package:ecommerce_app/features/cart_screen.dart';
+import 'package:ecommerce_app/features/pages/all_products_screen.dart';
+import 'package:ecommerce_app/features/pages/cart_screen.dart';
 import 'package:ecommerce_app/features/notifications/view/notifications_screen.dart';
 import 'package:ecommerce_app/features/widgets/category_chips.dart';
 import 'package:ecommerce_app/features/widgets/custom_search_bar.dart';

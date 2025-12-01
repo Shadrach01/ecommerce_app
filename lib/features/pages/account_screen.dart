@@ -4,8 +4,8 @@ import 'package:ecommerce_app/features/help%20center/views/screens/help_center_s
 import 'package:ecommerce_app/features/my%20orders/view/screens/my_orders_screen.dart';
 import 'package:ecommerce_app/features/shipping%20address/shipping_address_screen.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
-import 'package:ecommerce_app/features/settings_screen.dart';
-import 'package:ecommerce_app/features/signin_screen.dart';
+import 'package:ecommerce_app/features/pages/settings_screen.dart';
+import 'package:ecommerce_app/features/pages/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -287,11 +287,60 @@ class AccountScreen extends StatelessWidget {
 
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       final AuthController authController =
                           Get.find<AuthController>();
-                      authController.logout();
-                      Get.offAll(() => SigninScreen());
+
+                      // show loading indicator
+                      Get.dialog(
+                        const Center(
+                          child:
+                              CircularProgressIndicator(),
+                        ),
+                        barrierDismissible: false,
+                      );
+
+                      try {
+                        final result = await authController
+                            .signOut();
+
+                        // close loading dialog
+                        Get.back();
+
+                        if (result.success) {
+                          Get.snackbar(
+                            'Success',
+                            result.message,
+                            snackPosition:
+                                SnackPosition.BOTTOM,
+                            backgroundColor: Colors.green,
+                            colorText: Colors.white,
+                          );
+
+                          Get.offAll(() => SigninScreen());
+                        } else {
+                          Get.snackbar(
+                            'Error',
+                            result.message,
+                            snackPosition:
+                                SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                          );
+                        }
+                      } catch (e) {
+                        // close loading dialog
+                        Get.back();
+
+                        Get.snackbar(
+                          'Error',
+                          'An unexpected error occured. PLease try again',
+                          snackPosition:
+                              SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(
