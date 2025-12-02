@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/controllers/auth_controller.dart';
 import 'package:ecommerce_app/features/widgets/custom_textfield.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
 import 'package:flutter/material.dart';
@@ -13,108 +14,114 @@ class ProfileForm extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: isDark
-                      ? Colors.black.withOpacity(0.2)
-                      : Colors.grey.withOpacity(0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-
-            child: const CustomTextfield(
-              label: 'Full Name',
-              prefixicon: Icons.person_outline,
-              initialValue: 'Alex Johnson',
-            ),
-          ),
-
-          const SizedBox(height: 16),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: isDark
-                      ? Colors.black.withOpacity(0.2)
-                      : Colors.grey.withOpacity(0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-
-            child: const CustomTextfield(
-              label: 'Email',
-              prefixicon: Icons.email_outlined,
-              initialValue: 'alexjohnson@gmail.com',
-              keyboardType: TextInputType.emailAddress,
-            ),
-          ),
-
-          const SizedBox(height: 16),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: isDark
-                      ? Colors.black.withOpacity(0.2)
-                      : Colors.grey.withOpacity(0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-
-            child: const CustomTextfield(
-              label: 'Phone Number',
-              prefixicon: Icons.phone_outlined,
-              initialValue: '123933939',
-              keyboardType: TextInputType.phone,
-            ),
-          ),
-
-          const SizedBox(height: 32),
-
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Get.back();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(
-                  context,
-                ).primaryColor,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                ),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
+      child: GetX<AuthController>(
+        builder: (controller) {
+          return Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDark
+                          ? Colors.black.withOpacity(0.2)
+                          : Colors.grey.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+
+                child: CustomTextfield(
+                  label: 'Full Name',
+                  prefixicon: Icons.person_outline,
+                  initialValue: controller.username ?? '',
                 ),
               ),
-              child: Text(
-                'Save Changes',
-                style: AppTextStyles.withColor(
-                  AppTextStyles.buttonMedium,
-                  Colors.white,
+
+              const SizedBox(height: 16),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDark
+                          ? Colors.black.withOpacity(0.2)
+                          : Colors.grey.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+
+                child: CustomTextfield(
+                  label: 'Email',
+                  prefixicon: Icons.email_outlined,
+                  initialValue: controller.userEmail ?? '',
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
-            ),
-          ),
-        ],
+
+              const SizedBox(height: 16),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDark
+                          ? Colors.black.withOpacity(0.2)
+                          : Colors.grey.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+
+                child: CustomTextfield(
+                  label: 'Phone Number',
+                  prefixicon: Icons.phone_outlined,
+                  initialValue: controller.userPhone ?? '',
+                  keyboardType: TextInputType.phone,
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(
+                      context,
+                    ).primaryColor,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                    ),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        12,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    'Save Changes',
+                    style: AppTextStyles.withColor(
+                      AppTextStyles.buttonMedium,
+                      Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

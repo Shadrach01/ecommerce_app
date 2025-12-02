@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/controllers/auth_controller.dart';
 import 'package:ecommerce_app/controllers/theme_controller.dart';
 import 'package:ecommerce_app/features/pages/all_products_screen.dart';
 import 'package:ecommerce_app/features/pages/cart_screen.dart';
@@ -34,27 +35,31 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(width: 12),
+                  Expanded(
+                    flex: 2,
+                    child: GetX<AuthController>(
+                      builder: (authController) => Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hello ${authController.username?.split(' ').first ?? 'User'}',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
+                          ),
 
-                  const Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hello Alex',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
+                          Text(
+                            'Good Morning',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-
-                      Text(
-                        'Good Morning',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
 
                   // spacer

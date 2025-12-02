@@ -54,6 +54,9 @@ class AccountScreen extends StatelessWidget {
     final isDark =
         Theme.of(context).brightness == Brightness.dark;
 
+    final AuthController authController =
+        Get.find<AuthController>();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -74,23 +77,29 @@ class AccountScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          Text(
-            'Alex Johnson',
-            style: AppTextStyles.withColor(
-              AppTextStyles.h2,
-              Theme.of(context).textTheme.bodyLarge!.color!,
+          Obx(
+            () => Text(
+              authController.username ?? "User",
+              style: AppTextStyles.withColor(
+                AppTextStyles.h2,
+                Theme.of(
+                  context,
+                ).textTheme.bodyLarge!.color!,
+              ),
             ),
           ),
 
           const SizedBox(height: 4),
 
-          Text(
-            'alexjohnson@gmail.com',
-            style: AppTextStyles.withColor(
-              AppTextStyles.bodyMedium,
-              isDark
-                  ? Colors.grey[400]!
-                  : Colors.grey[600]!,
+          Obx(
+            () => Text(
+              authController.userEmail ?? "",
+              style: AppTextStyles.withColor(
+                AppTextStyles.bodyMedium,
+                isDark
+                    ? Colors.grey[400]!
+                    : Colors.grey[600]!,
+              ),
             ),
           ),
 
