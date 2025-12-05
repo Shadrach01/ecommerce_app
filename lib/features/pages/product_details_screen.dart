@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/utils/app_textstyles.dart';
 import 'package:ecommerce_app/features/widgets/size_selector.dart';
@@ -73,15 +71,9 @@ class ProductDetailsScreen extends StatelessWidget {
                 Positioned(
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(
-                      product.isFavorite
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: product.isFavorite
-                          ? Theme.of(context).primaryColor
-                          : isDark
-                          ? Colors.white
-                          : Colors.black,
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
                     ),
                   ),
                 ),

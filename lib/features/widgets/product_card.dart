@@ -42,10 +42,42 @@ class ProductCard extends StatelessWidget {
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     product.imageUrl,
                     width: double.infinity,
                     fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey[300],
+                            child: const Center(
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: 30,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          );
+                        },
+
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null)
+                        return child;
+
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value:
+                              loadingProgress
+                                      .expectedTotalBytes !=
+                                  null
+                              ? loadingProgress
+                                        .cumulativeBytesLoaded /
+                                    loadingProgress
+                                        .expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -56,16 +88,8 @@ class ProductCard extends StatelessWidget {
                 top: 8,
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(
-                    product.isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                  ),
-                  color: product.isFavorite
-                      ? Theme.of(context).primaryColor
-                      : isDark
-                      ? Colors.grey[400]
-                      : Colors.grey,
+                  icon: Icon(Icons.favorite_border),
+                  color: Colors.grey,
                 ),
               ),
               if (product.oldPrice != null)
@@ -108,11 +132,14 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   product.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.withColor(
                     AppTextStyles.withWeight(
                       AppTextStyles.h3,
                       FontWeight.bold,
                     ),
+
                     Theme.of(
                       context,
                     ).textTheme.bodyLarge!.color!,
